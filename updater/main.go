@@ -22,11 +22,11 @@ func main() {
 	fmt.Printf("Latest Version: %v\n", latestRelease.TagName)
 
 	for _, asset := range latestRelease.Assets {
-		fmt.Printf("Updating %v", asset.Name)
-		if asset.Name == fmt.Sprintf("frontend-%v", latestRelease.TagName) {
+		fmt.Printf("Updating %v\n", asset.Name)
+		if asset.Name == fmt.Sprintf("frontend-%v.tar.gz", latestRelease.TagName) {
 			downloadViaCurl(asset.BrowserDownloadURL, "/tmp/hud-frontend.tar.gz")
 			extractToDir("/tmp/hud-frontend.tar.gz", "/hud/web")
-		} else if asset.Name == fmt.Sprintf("api-%v", latestRelease.TagName) {
+		} else if asset.Name == fmt.Sprintf("api-%v.tar.gz", latestRelease.TagName) {
 			downloadViaCurl(asset.BrowserDownloadURL, "/tmp/hud-api.tar.gz")
 			extractToDir("/tmp/hud-api.tar.gz", "/hud/api")
 		}
@@ -34,11 +34,16 @@ func main() {
 }
 
 func downloadViaCurl(uri string, outputFilepath string) {
-	cmd := exec.Command("curl", "-o", outputFilepath, uri)
+	cmd := exec.Command("/usr/bin/curl", "-s", "-o", outputFilepath, uri)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
 	err := cmd.Run()
+	// fmt.Println(out)
 
 	if err != nil {
 		log.Fatal(err)
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }
