@@ -59,4 +59,7 @@ curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start.sh
 chmod 755 /home/hud_user/start.sh
 chown hud_user:hud_user /home/hud_user/start.sh
 
+lbu incude /hud
+lbu include /home
+
 lbu ci
