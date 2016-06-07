@@ -46,7 +46,7 @@ EndSection' > /etc/X11/xorg.conf.d/20-modules.conf
 echo ""
 echo "Setting up HUD user"
 echo ""
-adduser -h /home/hud_user -D -S hud_user
+adduser -h /home/hudapp -D hudapp
 
 # Set up Kiosk mode as per http://blogs.wcode.org/2013/09/howto-boot-your-raspberry-pi-into-a-fullscreen-browser-kiosk/
 echo ""
@@ -55,9 +55,11 @@ echo ""
 mkdir -p /hud
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/xinitrc -o /hud/xinitrc
 chmod 755 /boot/xinitrc
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start.sh -o /home/hud_user/start.sh
-chmod 755 /home/hud_user/start.sh
-chown hud_user:hud_user /home/hud_user/start.sh
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start.sh -o /home/hudapp/start.sh
+chmod 755 /home/hudapp/start.sh
+chown hud:hud /home/hudapp/start.sh
+
+sleep 3;
 
 lbu incude /hud
 lbu include /home
