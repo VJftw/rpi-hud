@@ -24,6 +24,11 @@ echo "Installing Firfox Browser"
 echo ""
 apk add firefox ttf-freefont
 
+echo ""
+echo "Installing Docker"
+echo ""
+apk add docker
+
 # Install X11 and Matchbox
 echo ""
 echo "Installing X11 Server and Openbox Window Manager"
