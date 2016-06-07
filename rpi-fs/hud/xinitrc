@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Disable DPMS / Screen blanking
+xset -dpms
+xset s off
+
+# Start the window manager
+openbox &
+
+# Start the browser (See http://peter.sh/experiments/chromium-command-line-switches/)
+firefox -url http://localhost:80
