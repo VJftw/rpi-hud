@@ -48,7 +48,7 @@ echo ""
 apk add nginx
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/nginx/nginx.conf -o /etc/nginx/nginx.conf
 chmod 644 /etc/nginx/nginx.conf
-update-rc add nginx boot
+rc-update add nginx boot
 
 # Setup Hud User
 echo ""
@@ -62,7 +62,7 @@ echo "Installing Kiosk Mode Boot files"
 echo ""
 mkdir -p /hud
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/xinitrc -o /hud/xinitrc
-chmod 755 /boot/xinitrc
+chmod 755 /hud/xinitrc
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start.sh -o /home/hudapp/start.sh
 chmod 755 /home/hudapp/start.sh
 chown hudapp:hudapp /home/hudapp/start.sh
