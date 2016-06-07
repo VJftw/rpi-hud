@@ -1,13 +1,15 @@
 package main
 
 import (
+	"archive/tar"
+	"compress/gzip"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
 )
 
 func main() {
@@ -18,28 +20,31 @@ func main() {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	fmt.Println(latestRelease)
-	fmt.Printf("Latest Version: %v\n", latestRelease.TagName)
+	fmt.Printf("\nLatest Version: %v\n\n", latestRelease.TagName)
 
 	for _, asset := range latestRelease.Assets {
-		fmt.Printf("Updating %v\n", asset.Name)
 		if asset.Name == fmt.Sprintf("frontend-%v.tar.gz", latestRelease.TagName) {
-			downloadViaCurl(asset.BrowserDownloadURL, "/tmp/hud-frontend.tar.gz")
+			download(asset.BrowserDownloadURL, "/tmp/hud-frontend.tar.gz")
 			extractToDir("/tmp/hud-frontend.tar.gz", "/hud/web")
 		} else if asset.Name == fmt.Sprintf("api-%v.tar.gz", latestRelease.TagName) {
-			downloadViaCurl(asset.BrowserDownloadURL, "/tmp/hud-api.tar.gz")
+			download(asset.BrowserDownloadURL, "/tmp/hud-api.tar.gz")
 			extractToDir("/tmp/hud-api.tar.gz", "/hud/api")
 		}
+
+		fmt.Println()
 	}
 }
 
-func downloadViaCurl(uri string, outputFilepath string) {
-	cmd := exec.Command("/usr/bin/curl", "-s", "-o", outputFilepath, uri)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+func download(uri string, outputFilepath string) {
+	fmt.Printf("Downloading %v\n", uri)
 
-	err := cmd.Run()
-	// fmt.Println(out)
+	out, err := os.Create(outputFilepath)
+	defer out.Close()
+
+	resp, err := http.Get(uri)
+	defer resp.Body.Close()
+
+	_, err = io.Copy(out, resp.Body)
 
 	if err != nil {
 		log.Fatal(err)
@@ -49,21 +54,9 @@ func downloadViaCurl(uri string, outputFilepath string) {
 }
 
 func extractToDir(filePath string, dir string) {
-	cmd := exec.Command("rm", "-rf", fmt.Sprintf("%v/*", dir))
-	err := cmd.Run()
+	fmt.Printf("Extracting %v to %v\n", filePath, dir)
 
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	cmd = exec.Command("tar", "-xzf", "-C", dir, filePath)
-	err = cmd.Run()
-
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
+	untarIt(filePath, dir)
 }
 
 type githubLatestRelease struct {
@@ -94,4 +87,66 @@ func httpGet(uri string) []byte {
 	}
 
 	return body
+}
+
+func untarIt(mpath string, dir string) {
+	fr, err := read(mpath)
+	defer fr.Close()
+	if err != nil {
+		panic(err)
+	}
+	gr, err := gzip.NewReader(fr)
+	defer gr.Close()
+	if err != nil {
+		panic(err)
+	}
+	tr := tar.NewReader(gr)
+	for {
+		hdr, err := tr.Next()
+		if err == io.EOF {
+			// end of tar archive
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+		path := fmt.Sprintf("%v/%v", dir, hdr.Name)
+		fmt.Printf("\t%v\n", path)
+		switch hdr.Typeflag {
+		case tar.TypeDir:
+			if err := os.MkdirAll(path, os.FileMode(hdr.Mode)); err != nil {
+				panic(err)
+			}
+		case tar.TypeReg:
+			ow, err := overwrite(path)
+			defer ow.Close()
+			if err != nil {
+				panic(err)
+			}
+			if _, err := io.Copy(ow, tr); err != nil {
+				panic(err)
+			}
+		default:
+			fmt.Printf("Can't: %c, %s\n", hdr.Typeflag, path)
+		}
+	}
+}
+
+func overwrite(mpath string) (*os.File, error) {
+	f, err := os.OpenFile(mpath, os.O_RDWR|os.O_TRUNC, 0777)
+	if err != nil {
+		f, err = os.Create(mpath)
+		if err != nil {
+			return f, err
+		}
+	}
+	return f, nil
+}
+
+func read(mpath string) (*os.File, error) {
+	f, err := os.OpenFile(mpath, os.O_RDONLY, 0444)
+	if err != nil {
+		return f, err
+	}
+	return f, nil
 }
