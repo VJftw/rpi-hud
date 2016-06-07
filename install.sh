@@ -20,21 +20,16 @@ apk update
 
 # Install Firefox Browser
 echo ""
-echo "Installing Firfox Browser"
+echo "Installing Firefox Browser"
 echo ""
 apk add firefox ttf-freefont
 
-echo ""
-echo "Installing Docker"
-echo ""
-apk add docker
-
-# Install X11 and Matchbox
+# Install X11 and Openbox
 echo ""
 echo "Installing X11 Server and Openbox Window Manager"
 echo ""
 setup-xorg-base
-apk add xf86-video-fbdev xf86-input-keyboard dbus
+apk add xf86-video-fbdev xf86-input-keyboard dbus openbox
 rc-update add dbus
 
 echo 'Section "Module"
@@ -46,6 +41,14 @@ echo 'Section "Module"
     Load "glx"
     Disable "dri"
 EndSection' > /etc/X11/xorg.conf.d/20-modules.conf
+
+echo ""
+echo "Installing NGINX"
+echo ""
+apk add nginx
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/nginx/nginx.conf -o /etc/nginx/nginx.conf
+chmod 644 /etc/nginx/nginx.conf
+update-rc add nginx boot
 
 # Setup Hud User
 echo ""
@@ -62,7 +65,19 @@ curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/xinitrc 
 chmod 755 /boot/xinitrc
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start.sh -o /home/hudapp/start.sh
 chmod 755 /home/hudapp/start.sh
-chown hud:hud /home/hudapp/start.sh
+chown hudapp:hudapp /home/hudapp/start.sh
+
+echo ""
+echo "Fetching latest Frontend"
+echo ""
+mkdir -p /hud/web
+rm -rf /hud/web/*
+
+echo ""
+echo "Fetching latest API"
+echo ""
+mkdir -p /hud/api
+rm -rf /hud/api/*
 
 sleep 3;
 

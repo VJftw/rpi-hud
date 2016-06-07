@@ -1,21 +1,11 @@
 #!/bin/sh
 
-while true; do
+# Disable DPMS / Screen blanking
+xset -dpms
+xset s off
 
-    # Clean up previously running apps, gracefully at first then harshly
-    # sudo killall -TERM firefox 2>/dev/null;
-    # sudo killall -TERM openbox 2>/dev/null;
-    # sleep 2;
-    # killall -9 firefox 2>/dev/null;
-    # killall -9 openbox 2>/dev/null;
+# Start the window manager
+openbox &
 
-    # Disable DPMS / Screen blanking
-    xset -dpms
-    xset s off
-
-    # Start the window manager
-    openbox &
-
-    # Start the browser (See http://peter.sh/experiments/chromium-command-line-switches/)
-    firefox -private -url http://localhost
-done;
+# Start the browser (See http://peter.sh/experiments/chromium-command-line-switches/)
+firefox -url http://localhost:80

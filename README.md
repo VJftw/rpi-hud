@@ -19,8 +19,10 @@ curl -O http://dl-cdn.alpinelinux.org/alpine/v3.4/releases/armhf/alpine-rpi-3.4.
 sudo tar -xvzf alpine-rpi-3.4.0-armhf.rpi.tar.gz -C /mnt/microsd
 
 sudo mkdir -p /mnt/microsd/firmware/brcm
-sudo curl https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.bin -o /mnt/microsd/firmware/brcm/brcmfmac43430-sdio.bin
+sudo curl https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/master/brcm80211/brcm/brcmfmac43430-sdio.bin -o /mnt/microsd/firmware/brcm/brcmfmac43430-sdio.bin
 
-sudo curl https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.txt -o /mnt/microsd/firmware/brcm/brcmfmac43430-sdio.txt
+sudo curl https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/master/brcm80211/brcm/brcmfmac43430-sdio.txt -o /mnt/microsd/firmware/brcm/brcmfmac43430-sdio.txt
+
+sudo umount /dev/sdc1
 
 ```
