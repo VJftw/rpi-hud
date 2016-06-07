@@ -29,7 +29,7 @@ echo ""
 echo "Installing X11 Server and Openbox Window Manager"
 echo ""
 setup-xorg-base
-​apk add xf86-video-fbdev xf86-input-keyboard dbus
+apk add xf86-video-fbdev xf86-input-keyboard dbus
 rc-update add dbus
 
 echo 'Section "Module"
