@@ -10,37 +10,60 @@ echo "Enter your ForecastIO API Key:"
 read forecastio_key
 echo FORECASTIO_API_KEY=$forecastio_key > /rpi-hud/environment
 
+# Update repositories
+echo ""
+echo "Updating Repositories"
+echo ""
+apk update
 
-# Install Chromium Browser from Ubuntu Vivid PPA
+# Install Bash and Font
 echo ""
-echo "Installing Chromium Browser"
+echo "Installing Base deps"
 echo ""
-echo 'deb http://ppa.launchpad.net/canonical-chromium-builds/stage/ubuntu vivid main' > /etc/apt/sources.list.d/chromium-ppa.list
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys DB69B232436DAC4B50BDC59E4E1B983C5B393194
-apt-get update -y
-apt-get install -y chromium-browser libexif12
+apk add bash curl ttf-freefont
+
+# Install Firefox Browser
+echo ""
+echo "Installing Firfox Browser"
+echo ""
+apk add firefox
 
 # Install X11 and Matchbox
 echo ""
-echo "Installing X11 Server and Matchbox Window Manager"
+echo "Installing X11 Server and Openbox Window Manager"
 echo ""
-sudo apt-get install -y xserver-xorg xinit xwit matchbox
+setup-xorg-base
+​apk add xf86-video-fbdev xf86-input-mouse xf86-input-keyboard dbus
+rc-update ​​add dbus
+
+echo 'Section "Module"
+    Load "fbdevhw"
+    Load "fb"
+    Load "shadow"
+    Load "shadowfb"
+    Load "dbe"
+    Load "glx"
+    Disable "dri"
+EndSection' > /etc/X11/xorg.conf.d/20-modules.conf
+
+lbu ci
+
+# Setup Hud User
+echo ""
+echo "Setting up HUD user"
+echo ""
+adduser -h /home/hud_user -D -S
+
+lbu ci
 
 # Set up Kiosk mode as per http://blogs.wcode.org/2013/09/howto-boot-your-raspberry-pi-into-a-fullscreen-browser-kiosk/
 echo ""
 echo "Installing Kiosk Mode Boot files"
 echo ""
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/master/rpi-fs/boot/config_ext.txt -o /boot/config_ext.txt
-cat /boot/config_ext.txt > /boot/config.txt
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/master/rpi-fs/boot/xinitrc -o /boot/xinitrc
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/boot/xinitrc -o /boot/xinitrc
 chmod 755 /boot/xinitrc
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/master/rpi-fs/etc/rc.local -o /etc/rc.local
-chmod 755 /etc/rc.local
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/boot/start.sh -o /home/hud_user/start.sh
+chmod 755 /home/hud_user/start.sh
+chown hud_user:hud_user /home/hud_user/start.sh
 
-
-# Fix startx as per http://karuppuswamy.com/wordpress/2010/09/26/how-to-fix-x-user-not-authorized-to-run-the-x-server-aborting/
-sed -i 's#.*allowed_users.*#allowed_users=anybody#g' /etc/X11/Xwrapper.config
-
-
-# Set Local time TODO: make globaly friendly
-sudo ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
+lbu ci
