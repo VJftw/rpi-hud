@@ -4,6 +4,11 @@
 curl -O https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
 chmod +x wait-for-it.sh
 echo ""
+
+if [ -f /hud/api/api ]; then
+    chmod +x /hud/api/api
+    ./hud/api/api &
+fi
 # ./wait-for-it.sh -t 300 0.0.0.0:8080 -- echo "=> API is up"
 
 if [ -f /hud/xinitrc ]; then
