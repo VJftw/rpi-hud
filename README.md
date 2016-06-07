@@ -10,6 +10,8 @@ export MSDPART=/dev/sdc1
 sudo parted $MICROSD rm 1
 sudo parted $MICROSD mkpart primary fat32 -a optimal 0% 100%
 sudo parted $MICROSD set 1 boot on
+sleep 3;
+sudo mkfs.fat /dev/sdc1
 sudo mkdir -p /mnt/microsd
 sudo mount $MSDPART /mnt/microsd
 
