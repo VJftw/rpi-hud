@@ -17,6 +17,7 @@ func main() {
 	var latestRelease githubLatestRelease
 	err := json.Unmarshal(httpGet("https://api.github.com/repos/vjftw/rpi-hud/releases/latest"), &latestRelease)
 	if err != nil {
+		fmt.Println("Error decodeing latest release JSON")
 		log.Fatal(err)
 		os.Exit(1)
 	}
@@ -71,7 +72,9 @@ type githubAsset struct {
 }
 
 func httpGet(uri string) []byte {
-	res, err := http.Get(uri)
+	client := &http.Client{}
+
+	res, err := client.Get(uri)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

@@ -68,16 +68,12 @@ chmod 755 /home/hudapp/start.sh
 chown hudapp:hudapp /home/hudapp/start.sh
 
 echo ""
-echo "Fetching latest Frontend"
+echo "Fetching Updater"
 echo ""
-mkdir -p /hud/web
-rm -rf /hud/web/*
+curl https://github.com/VJftw/rpi-hud/releases/download/0.0.0/updater-armhf -o /hud/updater
+chmod 755 /hud/updater
 
-echo ""
-echo "Fetching latest API"
-echo ""
-mkdir -p /hud/api
-rm -rf /hud/api/*
+/hud/updater
 
 sleep 3;
 
