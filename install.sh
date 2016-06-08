@@ -29,7 +29,7 @@ echo ""
 echo "Installing X11 Server and Openbox Window Manager"
 echo ""
 setup-xorg-base
-apk add xf86-video-fbdev xf86-input-keyboard dbus openbox
+apk add xf86-video-fbdev xf86-input-keyboard dbus openbox xset
 rc-update add dbus
 
 echo 'Section "Module"
@@ -70,7 +70,7 @@ chown hudapp:hudapp /home/hudapp/start.sh
 echo ""
 echo "Fetching Updater"
 echo ""
-curl https://github.com/VJftw/rpi-hud/releases/download/0.0.0/updater-armhf -o /hud/updater
+curl -L https://github.com/VJftw/rpi-hud/releases/download/0.0.0/updater-armhf -o /hud/updater
 chmod 755 /hud/updater
 
 /hud/updater
