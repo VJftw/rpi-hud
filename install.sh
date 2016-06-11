@@ -77,7 +77,7 @@ chmod 755 /hud/updater
 
 sleep 3;
 
-lbu incude /hud
+lbu include /hud
 lbu include /home
 
 lbu ci

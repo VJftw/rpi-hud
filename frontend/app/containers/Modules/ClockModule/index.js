@@ -3,6 +3,8 @@
 */
 
 import React from 'react';
+import moment from 'moment';
+
 
 export default class ClockModule extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -10,7 +12,7 @@ export default class ClockModule extends React.Component { // eslint-disable-lin
     super();
 
     this.state = {
-      timeFormatted: this.getFormattedTime(),
+      time: moment(),
     };
 
     this.timer = null;
@@ -19,7 +21,7 @@ export default class ClockModule extends React.Component { // eslint-disable-lin
   componentDidMount() {
     this.timer = setInterval(() => {
       this.setState({
-        timeFormatted: this.getFormattedTime(),
+        time: moment(),
       });
     }, 1000);
   }
@@ -28,16 +30,15 @@ export default class ClockModule extends React.Component { // eslint-disable-lin
     clearInterval(this.timer);
   }
 
-  getFormattedTime() {
-    return new Date().toLocaleString();
-  }
-
   render() {
     return (
-      <div className="col-md-12">
-        <h1>
-          {this.state.timeFormatted}
-        </h1>
+      <div className="col-sm-12">
+        <div className="col-sm-12 text-center">
+          <h2>{this.state.time.format('HH:mm')}</h2>
+        </div>
+        <div className="col-sm-12 text-center">
+          <h4>{this.state.time.format('dddd, Do MMMM YYYY')}</h4>
+        </div>
       </div>
     );
   }

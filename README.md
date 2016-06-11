@@ -26,3 +26,7 @@ sudo curl https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/master/b
 sudo umount /dev/sdc1
 
 ```
+3.
+```
+bash <(curl -s https://raw.githubusercontent.com/VJftw/rpi-hud/develop/install.sh)
+```
