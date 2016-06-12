@@ -26,6 +26,7 @@ echo ""
 echo "Setting up HUD user"
 echo ""
 useradd -d /home/hudapp -m -p hud hudapp
+gpasswd -a hudapp video
 
 echo ""
 echo "Installing Automatic Boot files"
