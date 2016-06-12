@@ -25,23 +25,23 @@ systemctl enable nginx
 echo ""
 echo "Setting up HUD user"
 echo ""
-useradd -d /home/hudapp -m -p hud
+useradd -d /home/hudapp -m -p hud hudapp
 
 echo ""
 echo "Installing Automatic Boot files"
 echo ""
-mkdir -p /hud
+mkdir -p /etc/systemd/system/getty@tty1.service.d
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/systemd/system/getty@tty1.service.d/override.conf -o /etc/systemd/system/getty@tty1.service.d/override.conf
 chmod 644 /etc/systemd/system/getty@tty1.service.d/override.conf
 
-
+mkdir -p /home/hudapp/.config
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/home/hudapp/.config/weston.ini -o /home/hudapp/.config/weston.ini
 chown hudapp:hudapp /home/hudapp/.config/weston.ini
 chmod 644 /home/hudapp/.config/weston.ini
 
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/home/hudapp/.bash_profile -o /home/hudapp/.bash_profile
 chown hudapp:hudapp /home/hudapp/.bash_profile
-chmod 755 /home/hudapp/.config/.bash_profile
+chmod 755 /home/hudapp/.bash_profile
 
 
 echo ""
@@ -53,4 +53,6 @@ chmod 755 /hud/updater
 echo ""
 echo "Updating"
 echo ""
+mkdir -p /hud/web
+mkdir -p /hud/api
 /hud/updater
