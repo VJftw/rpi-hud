@@ -36,6 +36,11 @@ chmod 644 /etc/systemd/system/hud-weston@.service
 systemctl daemon-reload
 systemctl enable hud-weston@tty2
 
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/systemd/system/hud-api.service > /etc/systemd/system/hud-api.service
+chmod 644 /etc/systemd/system/hud-api.service
+systemctl daemon-reload
+systemctl enable hud-api
+
 curl -H https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start_weston.sh > /hud/start_weston.sh
 chmod 755 /hud/start_weston.sh
 
