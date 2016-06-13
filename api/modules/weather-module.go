@@ -19,7 +19,7 @@ type WeatherModule struct {
 type smartForecast struct {
 	Location           string         `json:"location"`
 	CurrentTemperature string         `json:"currentTemperature"`
-	CurrentIcon        string         `json:"icon"`
+	CurrentIcon        string         `json:"iconClass"`
 	CurrentSummary     string         `json:"currentSummary"`
 	WeekForecast       [6]dayForecast `json:"weekForecast"`
 	WeekSummary        string         `json:"weekSummary"`
@@ -28,7 +28,7 @@ type smartForecast struct {
 type dayForecast struct {
 	Name        string `json:"name"`
 	Temperature string `json:"temperature"`
-	Icon        string `json:"icon"`
+	IconClass   string `json:"iconClass"`
 }
 
 // Run - Runs the module
@@ -42,12 +42,16 @@ func (weatherModule *WeatherModule) Run(ws *websocket.Conn) bool {
 		f := getForecast(info)
 
 		weatherModule.Data.CurrentTemperature = fmt.Sprintf("%.0f", f.Currently.ApparentTemperature)
-		weatherModule.Data.CurrentIcon = f.Currently.Icon
+		weatherModule.Data.CurrentIcon = fmt.Sprintf("wi wi-forecast-io-%s", f.Currently.Icon)
 		weatherModule.Data.CurrentSummary = f.Hourly.Summary
 		for i := 1; i < len(f.Daily.Data)-1; i++ {
 			tm := time.Unix(f.Daily.Data[i].Time, 0)
 			temp := fmt.Sprintf("%.0f", f.Daily.Data[i].ApparentTemperatureMax)
-			weatherModule.Data.WeekForecast[i-1] = dayForecast{Name: tm.Weekday().String(), Temperature: temp, Icon: f.Daily.Data[i].Icon}
+			weatherModule.Data.WeekForecast[i-1] = dayForecast{
+				Name:        tm.Weekday().String(),
+				Temperature: temp,
+				IconClass:   fmt.Sprintf("wi wi-forecast-io-%s", f.Daily.Data[i].Icon),
+			}
 		}
 		weatherModule.Data.WeekSummary = f.Daily.Summary
 
