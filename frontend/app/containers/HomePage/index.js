@@ -32,12 +32,12 @@ export default class HomePage extends React.Component { // eslint-disable-line r
   render() {
     return (
       <div>
-        <div className="row">
+        <div className="col-md-12">
           <div className="col-sm-3"></div>
           <div className="col-sm-6"><ClockModule /></div>
           <div className="col-sm-3"></div>
         </div>
-        <div className="row">
+        <div className="col-md-12">
           <WeatherModule weatherData={this.moduleData.weather} />
         </div>
       </div>
