@@ -18,6 +18,9 @@ StandardOutput=journal
 StandardError=journal
 PAMName=login
 
+Environment=XDG_CONFIG_HOME=/hud/weston.ini
+Environment=XCURSOR_SIZE=1
+
 [Install]
 WantedBy=multi-user.target
 DefaultInstance=tty9

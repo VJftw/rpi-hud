@@ -32,6 +32,10 @@ echo ""
 echo "Installing Automatic Boot files"
 echo ""
 # mkdir -p /etc/systemd/system/getty@tty1.service.d
+mkdir -p /hud
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start_weston.sh -o /hud/start_weston.sh
+chmod 755 /hud/hud_weston.sh
+
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/systemd/system/hud-weston@.service -o /etc/systemd/system/hud-weston@.service
 chmod 644 /etc/systemd/system/hud-weston@.service
 systemctl enable hud-weston@tty2
