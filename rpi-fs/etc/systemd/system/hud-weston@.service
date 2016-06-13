@@ -6,7 +6,7 @@ ConditionPathExists=/dev/tty0
 
 [Service]
 Type=simple
-ExecStart=/hud/start_weston.sh
+ExecStart=/usr/bin/weston
 UtmpIdentifier=%I
 TTYPath=/dev/%I
 TTYReset=yes
@@ -17,9 +17,6 @@ StandardInput=tty-fail
 StandardOutput=journal
 StandardError=journal
 PAMName=login
-
-Environment=XDG_CONFIG_HOME=/hud/weston.ini
-Environment=XCURSOR_SIZE=1
 
 [Install]
 WantedBy=multi-user.target

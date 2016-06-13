@@ -31,23 +31,22 @@ systemctl enable nginx
 echo ""
 echo "Installing Automatic Boot files"
 echo ""
-# mkdir -p /etc/systemd/system/getty@tty1.service.d
 mkdir -p /hud
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start_weston.sh -o /hud/start_weston.sh
-chmod 755 /hud/hud_weston.sh
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start_weston.sh > /hud/start_weston.sh
+chmod 755 /hud/start_weston.sh
 
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/systemd/system/hud-weston@.service -o /etc/systemd/system/hud-weston@.service
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/systemd/system/hud-weston@.service > /etc/systemd/system/hud-weston@.service
 chmod 644 /etc/systemd/system/hud-weston@.service
+systemctl daemon-reload
 systemctl enable hud-weston@tty2
 
-mkdir -p /root/.config
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/root/.config/weston.ini -o /root/.config/weston.ini
-chmod 644 /root/.config/weston.ini
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/weston.ini > /hud/weston.ini
+chmod 644 /hud/weston.ini
 
 echo ""
 echo "Fetching Updater"
 echo ""
-curl -L https://github.com/VJftw/rpi-hud/releases/download/0.0.0/updater-armhf -o /hud/updater
+curl -L https://github.com/VJftw/rpi-hud/releases/download/0.0.0/updater-armhf > /hud/updater
 chmod 755 /hud/updater
 
 echo ""
