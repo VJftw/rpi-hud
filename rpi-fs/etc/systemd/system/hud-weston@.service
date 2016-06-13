@@ -6,7 +6,7 @@ ConditionPathExists=/dev/tty0
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/weston
+ExecStart=/hud/start_weston.sh
 UtmpIdentifier=%I
 TTYPath=/dev/%I
 TTYReset=yes

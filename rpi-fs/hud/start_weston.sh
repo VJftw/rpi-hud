@@ -1,3 +1,4 @@
 #!/bin/bash
 
-weston & midori -e Fullscreen -a http://localhost
+weston &
+midori -e Fullscreen -a http://localhost
