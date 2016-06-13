@@ -19,23 +19,13 @@ export default class HomePage extends React.Component { // eslint-disable-line r
 
   constructor() {
     super();
-    this._socket = new WebSocket("ws://localhost:8080/ws/v1/hud");
+    this.socket = new WebSocket('ws://localhost:8080/ws/v1/hud');
 
     this.moduleData = {};
     this.moduleData.weather = {};
   }
 
   componentWillMount() {
-
-    // this._socket.onmessage = (event) => {
-    //   var data = JSON.parse(event.data);
-    //   console.log(data);
-    //   var module = data.module;
-    //   this.moduleData[module.name] = module.data;
-    //   console.log(this.moduleData);
-    // }
-
-
   }
 
   render() {
@@ -47,7 +37,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
           <div className="col-sm-3"></div>
         </div>
         <div className="col-md-12">
-          <WeatherModule {...this.props} socket={this._socket} />
+          <WeatherModule {...this.props} socket={this.socket} />
         </div>
       </div>
     );
