@@ -22,26 +22,25 @@ curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/nginx/ng
 chmod 644 /etc/nginx/nginx.conf
 systemctl enable nginx
 
-# echo ""
-# echo "Setting up HUD user"
-# echo ""
-# useradd -d /home/hudapp -m -p hud hudapp
-# gpasswd -a hudapp video
+echo ""
+echo "Setting up HUD user"
+echo ""
+useradd -d /hud -m -p hud hudapp
+gpasswd -a hudapp video
 
 echo ""
 echo "Installing Automatic Boot files"
 echo ""
-mkdir -p /hud
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start_weston.sh > /hud/start_weston.sh
-chmod 755 /hud/start_weston.sh
-
 curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/systemd/system/hud-weston@.service > /etc/systemd/system/hud-weston@.service
 chmod 644 /etc/systemd/system/hud-weston@.service
 systemctl daemon-reload
 systemctl enable hud-weston@tty2
 
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/weston.ini > /hud/weston.ini
-chmod 644 /hud/weston.ini
+curl -H https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/start_weston.sh > /hud/start_weston.sh
+chmod 755 /hud/start_weston.sh
+
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/hud/.config/weston.ini > /hud/.config/weston.ini
+chmod 644 /hud/.config/weston.ini
 
 echo ""
 echo "Fetching Updater"
@@ -55,3 +54,5 @@ echo ""
 mkdir -p /hud/web
 mkdir -p /hud/api
 /hud/updater
+
+chown -R hudapp:hudapp /hud
