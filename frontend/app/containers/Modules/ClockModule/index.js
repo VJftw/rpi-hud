@@ -34,7 +34,7 @@ export default class ClockModule extends React.Component { // eslint-disable-lin
     return (
       <div className="col-sm-12">
         <div className="col-sm-12 text-center">
-          <h2>{this.state.time.format('HH:mm')} <sup><small>{this.state.time.format('ss')}</small></sup></h2>
+          <h2>{this.state.time.format('HH:mm')}<sub><small>{this.state.time.format('ss')}</small></sub></h2>
         </div>
         <div className="col-sm-12 text-center">
           <h4>{this.state.time.format('dddd, Do MMMM YYYY')}</h4>
