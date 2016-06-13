@@ -13,7 +13,7 @@
 echo ""
 echo "Installing Weston, Midori and NGINX"
 echo ""
-pacman -Syu weston midori nginx mesa-libgl
+pacman -Syu weston midori nginx mesa-libgl chromium noto-fonts
 
 echo ""
 echo "Setting up NGINX"
@@ -22,28 +22,23 @@ curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/nginx/ng
 chmod 644 /etc/nginx/nginx.conf
 systemctl enable nginx
 
-echo ""
-echo "Setting up HUD user"
-echo ""
-useradd -d /home/hudapp -m -p hud hudapp
-gpasswd -a hudapp video
+# echo ""
+# echo "Setting up HUD user"
+# echo ""
+# useradd -d /home/hudapp -m -p hud hudapp
+# gpasswd -a hudapp video
 
 echo ""
 echo "Installing Automatic Boot files"
 echo ""
-mkdir -p /etc/systemd/system/getty@tty1.service.d
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/systemd/system/getty@tty1.service.d/override.conf -o /etc/systemd/system/getty@tty1.service.d/override.conf
-chmod 644 /etc/systemd/system/getty@tty1.service.d/override.conf
+# mkdir -p /etc/systemd/system/getty@tty1.service.d
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/etc/systemd/system/hud-weston@.service -o /etc/systemd/system/hud-weston@.service
+chmod 644 /etc/systemd/system/hud-weston@.service
+systemctl enable hud-weston@tty2
 
-mkdir -p /home/hudapp/.config
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/home/hudapp/.config/weston.ini -o /home/hudapp/.config/weston.ini
-chown hudapp:hudapp /home/hudapp/.config/weston.ini
-chmod 644 /home/hudapp/.config/weston.ini
-
-curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/home/hudapp/.bash_profile -o /home/hudapp/.bash_profile
-chown hudapp:hudapp /home/hudapp/.bash_profile
-chmod 755 /home/hudapp/.bash_profile
-
+mkdir -p /root/.config
+curl https://raw.githubusercontent.com/VJftw/rpi-hud/develop/rpi-fs/root/.config/weston.ini -o /root/.config/weston.ini
+chmod 644 /root/.config/weston.ini
 
 echo ""
 echo "Fetching Updater"

@@ -1,0 +1,23 @@
+[Unit]
+Description=hud weston service
+After=systemd-user-sessions.service
+
+ConditionPathExists=/dev/tty0
+
+[Service]
+Type=simple
+ExecStart=/hud/start_weston.sh
+UtmpIdentifier=%I
+TTYPath=/dev/%I
+TTYReset=yes
+TTYVHangup=yes
+TTYVTDisallocate=yes
+User=root
+StandardInput=tty-fail
+StandardOutput=journal
+StandardError=journal
+PAMName=login
+
+[Install]
+WantedBy=multi-user.target
+DefaultInstance=tty9
