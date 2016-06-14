@@ -11,33 +11,33 @@
 
 import React from 'react';
 
+
 import ClockModule from '../Modules/ClockModule';
 import WeatherModule from '../Modules/WeatherModule';
 
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  constructor() {
-    super();
-    this.socket = new WebSocket('ws://localhost:8080/ws/v1/hud');
+  static propTypes = {
+    moduleData: React.PropTypes.object,
+  };
 
-    this.moduleData = {};
-    this.moduleData.weather = {};
-  }
-
-  componentWillMount() {
+  constructor(props) {
+    super(props);
   }
 
   render() {
     return (
       <div>
-        <div className="col-md-12">
-          <div className="col-sm-3"></div>
-          <div className="col-sm-6"><ClockModule /></div>
-          <div className="col-sm-3"></div>
+        <div className="col-md-12 clearfix">
+          <div className="col-sm-6 col-sm-offset-3"><ClockModule /></div>
         </div>
-        <div className="col-md-12">
-          <WeatherModule {...this.props} socket={this.socket} />
+        <div className="col-md-12 clearfix">
+        <br />
+        <br />
+        </div>
+        <div className="col-md-12 clearfix">
+          <WeatherModule {...this.props} moduleData={this.props.moduleData} />
         </div>
       </div>
     );

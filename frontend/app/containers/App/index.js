@@ -12,6 +12,8 @@
  */
 
 import React from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 export default class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -19,11 +21,64 @@ export default class App extends React.Component { // eslint-disable-line react/
     children: React.PropTypes.node,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      "moduleData": {},
+    }
+
+    this.socket = new WebSocket('ws://localhost:8080/ws/v1/hud');
+    this.socket.onmessage = (event) => {
+      var moduleJSON = JSON.parse(event.data).module;
+      var moduleName = moduleJSON.name;
+      var moduleData = moduleJSON.data;
+
+      this.setState({
+        "moduleData": {
+          [moduleName]: moduleData,
+        }
+      });
+    };
+  }
+
+  openRoute = (route) => {
+    this.props.changeRoute(route);
+  };
+
+  openTasksPage = () => {
+    this.openRoute('/tasks');
+  };
+
+  openHomePage = () => {
+    this.openRoute('/');
+  };
+
   render() {
     return (
       <div>
-        {this.props.children}
+        <div className="col-sm-12">
+          {React.cloneElement(this.props.children, { moduleData: this.state.moduleData })}
+        </div>
+        <div className="navbar navbar-default navbar-fixed-bottom">
+          <div className="container-fluid">
+            <div className="collapse navbar-collapse">
+              <ul className="nav navbar-nav navbar-right">
+                <li><a onClick={this.openHomePage}>Link</a></li>
+                <li><a onClick={this.openTasksPage}>aaa</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeRoute: (url) => dispatch(push(url)),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(App);

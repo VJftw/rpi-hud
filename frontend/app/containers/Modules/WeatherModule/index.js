@@ -8,29 +8,24 @@ import React from 'react';
 export default class WeatherModule extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
-    socket: React.PropTypes.object.isRequired,
+    moduleData: React.PropTypes.object.isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      currentSummary: '',
-      currentTemperature: '',
-      icon: '',
-      location: '',
-      weekForecast: [],
-      weekSummary: '',
-    };
+    this.state = props.moduleData.weather;
   }
 
-  componentDidMount() {
-    const socket = this.props.socket;
+  componentWillReceiveProps(newProps) {
+    if (newProps.moduleData.hasOwnProperty('weather')) {
+      this.setState(newProps.moduleData.weather);
+    }
+  }
 
-    socket.onmessage = (event) => {
-      const weather = JSON.parse(event.data).module;
-      this.setState(weather.data);
-    };
+  componentWillMount() {
+    console.log("MOUNTING");
+    console.log(this.state);
   }
 
   render() {

@@ -34,7 +34,16 @@ export default function createRoutes() {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/tasks',
+      getComponent(location, cb) {
+        console.log("AAA");
+        System.import('containers/TasksPage')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    }, {
       path: '*',
+
       name: 'notfound',
       getComponent(nextState, cb) {
         System.import('containers/NotFoundPage')
