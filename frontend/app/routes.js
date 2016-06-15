@@ -36,7 +36,6 @@ export default function createRoutes() {
     }, {
       path: '/tasks',
       getComponent(location, cb) {
-        console.log("AAA");
         System.import('containers/TasksPage')
           .then(loadModule(cb))
           .catch(errorLoading);

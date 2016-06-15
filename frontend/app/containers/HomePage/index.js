@@ -30,7 +30,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
     return (
       <div>
         <div className="col-md-12 clearfix">
-          <div className="col-sm-6 col-sm-offset-3"><ClockModule /></div>
+          <div className="col-sm-6 col-sm-offset-3 text-center"><ClockModule /></div>
         </div>
         <div className="col-md-12 clearfix">
         <br />

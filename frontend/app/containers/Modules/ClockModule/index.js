@@ -8,8 +8,12 @@ import moment from 'moment';
 
 export default class ClockModule extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  constructor() {
-    super();
+  static propTypes = {
+    layout: React.PropTypes.string,
+  };
+
+  constructor(props) {
+    super(props);
 
     this.state = {
       time: moment(),
@@ -19,6 +23,7 @@ export default class ClockModule extends React.Component { // eslint-disable-lin
   }
 
   componentDidMount() {
+    console.log(this.props);
     this.timer = setInterval(() => {
       this.setState({
         time: moment(),
@@ -31,12 +36,19 @@ export default class ClockModule extends React.Component { // eslint-disable-lin
   }
 
   render() {
+    if (this.props.hasOwnProperty('layout') && this.props.layout == "heading") {
+      return (
+        <div className="col-xs-12">
+            <h4>{this.state.time.format('HH:mm')} <small>{this.state.time.format('dddd, Do MMMM YYYY')}</small></h4>
+        </div>
+      )
+    }
     return (
       <div className="col-sm-12">
-        <div className="col-sm-12 text-center">
+        <div className="col-sm-12">
           <h2>{this.state.time.format('HH:mm')}<sub><small>{this.state.time.format('ss')}</small></sub></h2>
         </div>
-        <div className="col-sm-12 text-center">
+        <div className="col-sm-12">
           <h5>{this.state.time.format('dddd, Do MMMM YYYY')}</h5>
         </div>
       </div>

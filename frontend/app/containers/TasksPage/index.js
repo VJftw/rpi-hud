@@ -12,13 +12,16 @@
 import React from 'react';
 
 import ClockModule from '../Modules/ClockModule';
-
+import WeatherModule from '../Modules/WeatherModule';
 
 export default class TasksPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  constructor() {
-    super();
+  static propTypes = {
+    moduleData: React.PropTypes.object,
+  };
 
+  constructor(props) {
+    super(props);
   }
 
   componentWillMount() {
@@ -27,7 +30,10 @@ export default class TasksPage extends React.Component { // eslint-disable-line 
   render() {
     return (
       <div>
-        HELLO
+        <div className="col-sm-12 clearfix">
+          <div className="col-sm-6"><ClockModule {...this.props} layout="heading"/></div>
+          <div className="col-sm-6"><WeatherModule {...this.props} layout="heading" moduleData={this.props.moduleData}/></div>
+        </div>
       </div>
     );
   }

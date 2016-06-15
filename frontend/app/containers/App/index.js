@@ -64,8 +64,8 @@ export default class App extends React.Component { // eslint-disable-line react/
           <div className="container-fluid">
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav navbar-right">
-                <li><a onClick={this.openHomePage}>Link</a></li>
-                <li><a onClick={this.openTasksPage}>aaa</a></li>
+                <li><a onClick={this.openHomePage}>Main</a></li>
+                <li><a onClick={this.openTasksPage}>Tasks</a></li>
               </ul>
             </div>
           </div>

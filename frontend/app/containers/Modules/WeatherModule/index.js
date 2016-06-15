@@ -23,12 +23,16 @@ export default class WeatherModule extends React.Component { // eslint-disable-l
     }
   }
 
-  componentWillMount() {
-    console.log("MOUNTING");
-    console.log(this.state);
-  }
-
   render() {
+    if (!this.state || !this.state.hasOwnProperty('currentSummary')) {
+      return (<div></div>);
+    } else if (this.props.hasOwnProperty('layout') && this.props.layout == "heading") {
+      return (
+        <div className="col-xs-12 text-right">
+          <h4><i className={this.state.iconClass} ></i> {this.state.currentTemperature}°C <small>{this.state.location}</small></h4>
+        </div>
+      )
+    }
     return (
       <div className="col-sm-12">
         <div className="col-sm-12 text-center">
