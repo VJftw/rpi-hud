@@ -22,10 +22,6 @@ export default class HomePage extends React.Component { // eslint-disable-line r
     moduleData: React.PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>
@@ -33,8 +29,8 @@ export default class HomePage extends React.Component { // eslint-disable-line r
           <div className="col-sm-6 col-sm-offset-3 text-center"><ClockModule /></div>
         </div>
         <div className="col-md-12 clearfix">
-        <br />
-        <br />
+          <br />
+          <br />
         </div>
         <div className="col-md-12 clearfix">
           <WeatherModule {...this.props} moduleData={this.props.moduleData} />

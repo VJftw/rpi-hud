@@ -15,29 +15,30 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
-export default class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
     children: React.PropTypes.node,
+    changeRoute: React.PropTypes.func,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      "moduleData": {},
-    }
+      moduleData: {},
+    };
 
     this.socket = new WebSocket('ws://localhost:8080/ws/v1/hud');
     this.socket.onmessage = (event) => {
-      var moduleJSON = JSON.parse(event.data).module;
-      var moduleName = moduleJSON.name;
-      var moduleData = moduleJSON.data;
+      const moduleJSON = JSON.parse(event.data).module;
+      const moduleName = moduleJSON.name;
+      const moduleData = moduleJSON.data;
 
       this.setState({
-        "moduleData": {
+        moduleData: {
           [moduleName]: moduleData,
-        }
+        },
       });
     };
   }

@@ -9,6 +9,7 @@ export default class WeatherModule extends React.Component { // eslint-disable-l
 
   static propTypes = {
     moduleData: React.PropTypes.object.isRequired,
+    layout: React.PropTypes.string,
   };
 
   constructor(props, context) {
@@ -26,12 +27,12 @@ export default class WeatherModule extends React.Component { // eslint-disable-l
   render() {
     if (!this.state || !this.state.hasOwnProperty('currentSummary')) {
       return (<div></div>);
-    } else if (this.props.hasOwnProperty('layout') && this.props.layout == "heading") {
+    } else if (this.props.hasOwnProperty('layout') && this.props.layout === 'heading') {
       return (
         <div className="col-xs-12 text-right">
           <h4><i className={this.state.iconClass} ></i> {this.state.currentTemperature}°C <small>{this.state.location}</small></h4>
         </div>
-      )
+      );
     }
     return (
       <div className="col-sm-12">

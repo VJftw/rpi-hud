@@ -23,7 +23,6 @@ export default class ClockModule extends React.Component { // eslint-disable-lin
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.timer = setInterval(() => {
       this.setState({
         time: moment(),
@@ -36,12 +35,12 @@ export default class ClockModule extends React.Component { // eslint-disable-lin
   }
 
   render() {
-    if (this.props.hasOwnProperty('layout') && this.props.layout == "heading") {
+    if (this.props.hasOwnProperty('layout') && this.props.layout === 'heading') {
       return (
         <div className="col-xs-12">
-            <h4>{this.state.time.format('HH:mm')} <small>{this.state.time.format('dddd, Do MMMM YYYY')}</small></h4>
+          <h4>{this.state.time.format('HH:mm')} <small>{this.state.time.format('dddd, Do MMMM YYYY')}</small></h4>
         </div>
-      )
+      );
     }
     return (
       <div className="col-sm-12">
